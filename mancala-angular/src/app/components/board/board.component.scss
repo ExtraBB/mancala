@@ -1,0 +1,44 @@
+@mixin round-border() {
+    border: 2px solid gray;
+    border-radius: 50%;
+}
+
+@mixin hover() {
+    &:hover {
+        background-color: $hover-color;
+        cursor: pointer;
+    }
+}
+
+$hover-color: rgba(255, 251, 0, 0.849);
+
+.board {
+    display: flex;
+    flex-direction: row;
+    height: 220px;
+
+    & > * {
+        width: 100px;
+        margin: 0px 5px;
+    }
+
+    .pit {
+        text-align: center;
+        line-height: 210px;
+        margin: 5px 0px;
+
+        @include round-border();
+        @include hover();
+    }
+
+    .pocket-duo {
+        line-height: 100px;
+        text-align: center;
+
+        .pocket {
+            margin: 5px 0px;
+            @include round-border();
+            @include hover();
+        }
+    }
+}

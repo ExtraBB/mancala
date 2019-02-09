@@ -132,5 +132,10 @@
       }
     }
   },
-  "defaultProject": "mancala-angular"
+  "defaultProject": "mancala-angular",
+  "schematics": {
+    "@schematics/angular:component": {
+      "styleext": "scss"
+    }
+  }
 }
