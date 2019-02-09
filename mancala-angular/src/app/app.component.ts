@@ -10,7 +10,7 @@ export class AppComponent {
   title = 'mancala-angular';
 
   constructor(private http: HttpClient) {
-    this.http.get("/game").subscribe(response => {
+    this.http.put("localhost:8080/game", {}).subscribe(response => {
       console.log(response);
       this.title = "hi";
     })

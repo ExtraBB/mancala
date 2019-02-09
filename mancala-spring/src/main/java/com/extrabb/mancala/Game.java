@@ -2,16 +2,6 @@ package com.extrabb.mancala;
 
 import java.util.UUID;
 
-//---------------------------------------------------//
-//       |     |     |     |     |     |     |       //
-//       |  1  |  2  |  3  |  4  |  5  |  6  |       //
-//       |     |     |     |     |     |     |       //
-//   0   |------------------------------------   7   //
-//       |     |     |     |     |     |     |       //
-//       |  1  |  1  |  1  |  1  |  9  |  8  |       //
-//       |  3  |  2  |  1  |  0  |     |     |       //
-//---------------------------------------------------//
-
 public class Game {
     // Game Metadata
     private final String id;
@@ -19,7 +9,7 @@ public class Game {
     private String player2;
 
     // Game state
-    private int[] board;
+    private Board board;
     private String nextPlayer;
 
     public Game(String player1) {
@@ -28,18 +18,12 @@ public class Game {
     }
 
     private void initializeGame() {
-        this.board = new int[14];
-        for(int i = 0; i < 14; i++) {
-            if(i % 7 == 0) {
-                continue;
-            }
-            board[i] = 6;
-        }
+        this.board = new Board(14, 6);
         this.nextPlayer = player1;
     }
 
     public boolean joinGame(String player2) {
-        if(this.player2 != null) {
+        if(this.player2 != null || this.player1 == player2) {
             return false;
         }
         this.player2 = player2;
@@ -47,11 +31,28 @@ public class Game {
         return true;
     }
 
+    public boolean requestMove(String playerId, int pocket) {
+        if(nextPlayer != playerId) {
+            return false;
+        }
+        return this.board.makeMove(getPlayerNumber(playerId), pocket);
+    }
+
+    private int getPlayerNumber(String player) {
+        if(player == player1) {
+            return 1;
+        } else if (player == player2) {
+            return 2;
+        } else {
+            return -1;
+        }
+    }
+
     public String getId() {
         return id;
     }
 
-    public int[] getBoard() {
+    public Board getBoard() {
         return board;
     }
 

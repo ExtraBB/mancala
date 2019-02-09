@@ -26,10 +26,12 @@ public class GameController {
         }
     }
 
+    // TODO: Don't return full Game objects for non-parties
+
     @RequestMapping(path="/games", method= RequestMethod.GET)
     public ResponseEntity getGames() {
-        List<String> gameIds = activeGames.values().stream().map(game -> game.getId()).collect(Collectors.toList());
-        return ResponseEntity.status(HttpStatus.OK).body(gameIds);
+//        List<String> gameIds = activeGames.values().stream().map(game -> game.getId()).collect(Collectors.toList());
+        return ResponseEntity.status(HttpStatus.OK).body(activeGames.values());
     }
 
     @RequestMapping(path="/game", method= RequestMethod.PUT)
@@ -47,7 +49,22 @@ public class GameController {
             if(result) {
                 return ResponseEntity.status(HttpStatus.OK).body(game);
             } else {
-                return ResponseEntity.status(HttpStatus.CONFLICT).body("Game already in progress");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Unable to join game");
+            }
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Game was not found");
+        }
+    }
+
+    @RequestMapping(path="/game/move", method= RequestMethod.POST)
+    public ResponseEntity requestMove(@RequestParam(value="id") String id, @RequestParam(value="pocket") int pocket, HttpServletRequest request) {
+        if(activeGames.containsKey(id)) {
+            Game game = activeGames.get(id);
+            boolean result = game.requestMove(request.getSession().getId(), pocket);
+            if(result) {
+                return ResponseEntity.status(HttpStatus.OK).body(game);
+            } else {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid move");
             }
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Game was not found");
