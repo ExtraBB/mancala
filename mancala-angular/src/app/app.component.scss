@@ -1,0 +1,15 @@
+.error {
+    color: red;
+}
+
+.input {
+    display: flex;
+    flex-direction: row;
+    width: 200px;
+    justify-content: space-between;
+    margin: 5px 0px;
+
+    input {
+        width: 40px;
+    }
+}

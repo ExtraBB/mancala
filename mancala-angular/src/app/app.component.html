@@ -1,8 +1,27 @@
 <h1>Mancala</h1>
+
 <h2>Active Game</h2>
 <app-game *ngIf="activeGame" [game]="activeGame"></app-game>
+
 <h2>Available games:</h2>
 <ul *ngIf="availableGames">
-  <li *ngFor="let game of availableGames">{{game.id}} <button (click)="joinGame(game.id)">Join</button></li>
+  <li *ngFor="let game of availableGames">{{game}} <button (click)="joinGame(game)">Join</button></li>
 </ul>
-<button (click)="createGame()">Create Game</button>
+<button (click)="retrieveAvailableGames()">Refresh</button>
+
+<h2>Create game</h2>
+
+<form (ngSubmit)="createGame()" [formGroup]="createGameForm">
+  <div class="input">
+    <label for="size">Size</label>
+    <input type="number" name="size" formControlName="size">
+  </div>
+  <div class="input">
+    <label for="pieces">Starting pieces</label>
+    <input type="number" name="pieces" formControlName="pieces">
+  </div>
+  <button type="submit">Create Game</button>
+  <p class="error" *ngIf="formError">
+    {{formError}}
+  </p>
+</form>

@@ -1,12 +1,16 @@
-<div class="board">
-  <div class="pit">
-    {{board.pockets[board.pockets.length / 2 - 1]}}
+<div class="board-container">
+  <h3>← {{side === "top" ? "Your" : "Opponent"}} Side</h3>
+  <div class="board">
+    <div class="pit">
+      {{board.pockets[board.pockets.length / 2 - 1]}}
+    </div>
+    <div *ngFor="let i of (board.pockets.length / 2 - 1)| times: true" class="pocket-duo">
+      <div class="pocket pocket-top" (click)="move.emit(i)">{{board.pockets[i]}}</div>
+      <div class="pocket pocket-bottom" (click)="move.emit(board.pockets.length - i - 2)">{{board.pockets[board.pockets.length - i - 2]}}</div>
+    </div>
+    <div class="pit">
+      {{board.pockets[board.pockets.length - 1]}}
+    </div>
   </div>
-  <div *ngFor="let i of (board.pockets.length / 2 - 1)| times: true" class="pocket-duo">
-    <div class="pocket pocket-top">{{board.pockets[i]}}</div>
-    <div class="pocket pocket-bottom">{{board.pockets[board.pockets.length - i - 2]}}</div>
-  </div>
-  <div class="pit">
-    {{board.pockets[board.pockets.length - 1]}}
-  </div>
+  <h3>{{side === "bottom" ? "Your" : "Opponent"}} Side →</h3>
 </div>

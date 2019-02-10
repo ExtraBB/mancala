@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import Board from '../../models/Board';
 
 @Component({
@@ -9,10 +9,11 @@ import Board from '../../models/Board';
 export class BoardComponent implements OnInit {
 
   @Input() board: Board;
+  @Input() side: String;
+  @Output() move = new EventEmitter<number>();
 
   constructor() { }
 
   ngOnInit() {
   }
-
 }

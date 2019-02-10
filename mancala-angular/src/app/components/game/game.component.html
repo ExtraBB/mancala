@@ -1,4 +1,7 @@
 <p>
-  Game ID: {{game.id}}
-  <app-board *ngIf="game.board" [board]="game.board"></app-board>
+  <strong>Game ID</strong>: {{game.id}} <br />
+  <strong>Status</strong>: {{game.status}} <br />
+  <strong>Turn</strong>: {{game.yourTurn ? "You" : "Opponent"}}
 </p>
+
+  <app-board *ngIf="game.board && game.status !== 'Waiting for opponent'" [board]="game.board" [side]="game.side" (move)="makeMove($event)"></app-board>

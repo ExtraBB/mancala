@@ -12,33 +12,39 @@
 
 $hover-color: rgba(255, 251, 0, 0.849);
 
-.board {
+.board-container {
     display: flex;
-    flex-direction: row;
-    height: 220px;
+    flex-direction: column;
+    align-items: center;
 
-    & > * {
-        width: 100px;
-        margin: 0px 5px;
-    }
+    .board {
+        display: flex;
+        flex-direction: row;
+        height: 220px;
 
-    .pit {
-        text-align: center;
-        line-height: 210px;
-        margin: 5px 0px;
+        & > * {
+            width: 100px;
+            margin: 0px 5px;
+        }
 
-        @include round-border();
-        @include hover();
-    }
-
-    .pocket-duo {
-        line-height: 100px;
-        text-align: center;
-
-        .pocket {
+        .pit {
+            text-align: center;
+            line-height: 210px;
             margin: 5px 0px;
+
             @include round-border();
             @include hover();
+        }
+
+        .pocket-duo {
+            line-height: 100px;
+            text-align: center;
+
+            .pocket {
+                margin: 5px 0px;
+                @include round-border();
+                @include hover();
+            }
         }
     }
 }
