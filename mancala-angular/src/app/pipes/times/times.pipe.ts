@@ -2,6 +2,12 @@ import {PipeTransform, Pipe} from '@angular/core';
 
 @Pipe({name: 'times'})
 export class TimesPipe implements PipeTransform {
+
+  /**
+   * Generate an array of 1..n
+   * @param value n
+   * @param reverse Reversed 
+   */
   transform(value: number, reverse?: boolean): any {
     const iterable = <Iterable<any>> {};
     if(reverse) {

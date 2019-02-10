@@ -1,6 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { GameComponent } from './game.component';
+import { BoardComponent } from '../board/board.component';
+import { TimesPipe } from 'src/app/pipes/times/times.pipe';
+import { HttpClientModule } from '@angular/common/http';
+import Game from 'src/app/models/Game';
 
 describe('GameComponent', () => {
   let component: GameComponent;
@@ -8,7 +12,8 @@ describe('GameComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ GameComponent ]
+      declarations: [ GameComponent, BoardComponent, TimesPipe ],
+      imports: [HttpClientModule]
     })
     .compileComponents();
   }));
@@ -16,6 +21,7 @@ describe('GameComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(GameComponent);
     component = fixture.componentInstance;
+    component.game = {} as Game;
     fixture.detectChanges();
   });
 

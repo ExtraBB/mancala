@@ -5,8 +5,8 @@
       {{board.pockets[board.pockets.length / 2 - 1]}}
     </div>
     <div *ngFor="let i of (board.pockets.length / 2 - 1)| times: true" class="pocket-duo">
-      <div class="pocket pocket-top" (click)="move.emit(i)">{{board.pockets[i]}}</div>
-      <div class="pocket pocket-bottom" (click)="move.emit(board.pockets.length - i - 2)">{{board.pockets[board.pockets.length - i - 2]}}</div>
+      <div [ngClass]="{'selectable': side === 'top'}" class="pocket pocket-top" (click)="move.emit(i)">{{board.pockets[i]}}</div>
+      <div [ngClass]="{'selectable': side === 'bottom'}" class="pocket pocket-bottom" (click)="move.emit(board.pockets.length - i - 2)">{{board.pockets[board.pockets.length - i - 2]}}</div>
     </div>
     <div class="pit">
       {{board.pockets[board.pockets.length - 1]}}

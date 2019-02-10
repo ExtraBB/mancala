@@ -18,6 +18,10 @@ export class GameComponent implements OnInit {
   ngOnInit() {
   }
 
+  /**
+   * Make a move
+   * @param pocket the pocket to make the move for
+   */
   makeMove(pocket: number) {
     this.http.post<Game>(`${environment.serverBaseUrl}/game/move?pocket=${pocket}`, {}, {  withCredentials: true  }).subscribe(response => {
       this.game = response;

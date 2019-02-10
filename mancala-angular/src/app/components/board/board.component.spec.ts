@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { BoardComponent } from './board.component';
+import { TimesPipe } from 'src/app/pipes/times/times.pipe';
 
 describe('BoardComponent', () => {
   let component: BoardComponent;
@@ -8,7 +9,7 @@ describe('BoardComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ BoardComponent ]
+      declarations: [ BoardComponent, TimesPipe ]
     })
     .compileComponents();
   }));
@@ -16,6 +17,7 @@ describe('BoardComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(BoardComponent);
     component = fixture.componentInstance;
+    component.board = { pockets: [] };
     fixture.detectChanges();
   });
 

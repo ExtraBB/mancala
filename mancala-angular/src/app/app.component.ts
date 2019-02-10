@@ -37,6 +37,10 @@ export class AppComponent {
     });
   }
 
+  /**
+   * Subscribe to game updated on the websocket
+   * @param game the game to subscribe to
+   */
   subscribeToGame(game: Game) {
     if(!this.activeSubscription || this.activeSubscriptionGameId !== game.id) {
       this.activeSubscription = this.stompClient.subscribe(`/game/${game.id}/${this.playerId}`, (message) => {
@@ -45,6 +49,9 @@ export class AppComponent {
     }
   }
 
+  /**
+   * Register yourself to receive a player id
+   */
   register() {
     const playerFromCookie = document.cookie.split("=")[1];
     if(!playerFromCookie) {
@@ -61,6 +68,9 @@ export class AppComponent {
     }
   }
 
+  /**
+   * Retrieve the game that you are currently enrolled in.
+   */
   retrieveActiveGame() {
     this.http.get<Game>(`${environment.serverBaseUrl}/game`, {  withCredentials: true  }).subscribe(response => {
       this.activeGame = response;
@@ -68,12 +78,18 @@ export class AppComponent {
     });
   }
 
+  /**
+   * Retrieve the available game ids
+   */
   retrieveAvailableGames() {
     this.http.get<String[]>(`${environment.serverBaseUrl}/games`, {  withCredentials: true  }).subscribe(response => {
       this.availableGames = response;
     });
   }
 
+  /**
+   * Create a new game
+   */
   createGame() {
     if(this.createGameForm.valid) {
       this.formError = "";
@@ -88,6 +104,10 @@ export class AppComponent {
     }
   }
 
+  /**
+   * Join a game
+   * @param id the game id
+   */
   joinGame(id: string) {
     this.http.post<Game>(`${environment.serverBaseUrl}/game/join?id=${id}`, {}, {  withCredentials: true  }).subscribe(response => {
       this.activeGame = response;
