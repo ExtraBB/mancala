@@ -1,9 +1,10 @@
 <h1>Mancala</h1>
 
 <h2>Active Game</h2>
-<app-game *ngIf="activeGame" [game]="activeGame"></app-game>
+<app-game *ngIf="activeGame" [game]="activeGame" [player]="playerId"></app-game>
+<p *ngIf="!activeGame">[Not in a game yet]</p>
 
-<h2>Available games:</h2>
+<h2>Available games</h2>
 <ul *ngIf="availableGames">
   <li *ngFor="let game of availableGames">{{game}} <button (click)="joinGame(game)">Join</button></li>
 </ul>

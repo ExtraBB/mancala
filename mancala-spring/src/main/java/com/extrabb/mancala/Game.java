@@ -11,7 +11,6 @@ public class Game {
     // Game state
     private Board board;
     private String nextPlayer;
-    private Boolean yourTurn;
     private String status;
     private String side;
 
@@ -23,8 +22,8 @@ public class Game {
         return board;
     }
 
-    public Boolean getYourTurn() {
-        return yourTurn;
+    public String getNextPlayer() {
+        return nextPlayer;
     }
 
     public String getStatus() {
@@ -87,7 +86,6 @@ public class Game {
     }
 
     public void updateGameStatus(String playerId) {
-        yourTurn = nextPlayer.equals(playerId);
         status = this.hasStarted() ? this.board.determineGameStatus() : "Waiting for opponent";
         side = player1.equals(playerId) ? "top" : "bottom";
     }

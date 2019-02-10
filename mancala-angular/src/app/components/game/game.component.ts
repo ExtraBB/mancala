@@ -11,6 +11,7 @@ import { environment } from 'src/environments/environment';
 export class GameComponent implements OnInit {
 
   @Input() game: Game;
+  @Input() player: String;
 
   constructor(private http: HttpClient) { }
 
@@ -18,7 +19,6 @@ export class GameComponent implements OnInit {
   }
 
   makeMove(pocket: number) {
-    console.log(pocket);
     this.http.post<Game>(`${environment.serverBaseUrl}/game/move?pocket=${pocket}`, {}, {  withCredentials: true  }).subscribe(response => {
       this.game = response;
     })
