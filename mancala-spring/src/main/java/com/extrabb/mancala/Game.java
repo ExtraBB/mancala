@@ -68,6 +68,11 @@ public class Game {
         this.board = new Board(size, startingPieces);
     }
 
+    /**
+     * Join an existing game
+     * @param player2 the id of the player that would likes to join
+     * @return whether the join succeeded
+     */
     public boolean joinGame(String player2) {
         if(this.player2 != null || this.player1.equals(player2)) {
             return false;
@@ -76,6 +81,12 @@ public class Game {
         return true;
     }
 
+    /**
+     * Request to make a move
+     * @param playerId The player that wants to make the move
+     * @param pocket The pocket to make the move on
+     * @return Whether the move succeeded
+     */
     public boolean requestMove(String playerId, int pocket) {
         if(!hasStarted() || !nextPlayer.equals(playerId)) {
             return false;
@@ -94,6 +105,11 @@ public class Game {
         }
     }
 
+    /**
+     * Get the number of a player (1 for player1 and -1 for player2)
+     * @param player the id of the player
+     * @return the player number
+     */
     private int getPlayerNumber(String player) {
         if(player.equals(player1)) {
             return 1;
@@ -104,14 +120,27 @@ public class Game {
         }
     }
 
+    /**
+     * Check whether the game has started.
+     * @return whether the game has started
+     */
     public boolean hasStarted() {
         return player1 != null && player2 != null;
     }
 
+    /**
+     * Check if a player is in a game
+     * @param playerId the id of the player
+     * @return whether the player is in the game
+     */
     public boolean hasPlayer(String playerId) {
         return playerId != null && (player1 != null && player1.equals(playerId) || player2 != null && player2.equals(playerId));
     }
 
+    /**
+     * Update the status of the game (used when sending it back to the user
+     * @param playerId the id of the active player.
+     */
     public void updateGameStatus(String playerId) {
         status = this.hasStarted() ? this.board.determineGameStatus() : "Waiting for opponent";
     }

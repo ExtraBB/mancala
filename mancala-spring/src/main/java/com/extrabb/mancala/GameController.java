@@ -22,7 +22,6 @@ public class GameController {
 
     private Map<String, Game> activeGamesByPlayer = new HashMap<String, Game>();
     private Map<String, Game> activeGamesById = new HashMap<String, Game>();
-    Logger logger = Logger.getLogger("debug");
 
     private final SimpMessagingTemplate template;
 
@@ -31,10 +30,14 @@ public class GameController {
         this.template = template;
     }
 
+    /**
+     * The register route to set a cookie on the client with their player id
+     * @param response used to set cookie
+     * @return the player id
+     */
     @RequestMapping(path="/register", method= RequestMethod.GET)
     public ResponseEntity register(HttpServletResponse response) {
         String playerId = UUID.randomUUID().toString();
-        logger.log(Level.INFO, "set cookie: " + playerId);
 
         Cookie cookie = new Cookie("player-id", playerId);
         cookie.setMaxAge(60*60*24*7); // 1 week expiry
@@ -44,9 +47,13 @@ public class GameController {
         return ResponseEntity.status(HttpStatus.OK).body(playerId);
     }
 
+    /**
+     * The GET route for a game
+     * @param playerId The player id retrieved from the cookie
+     * @return the game that a user is currently in.
+     */
     @RequestMapping(path="/game", method= RequestMethod.GET)
-    public ResponseEntity getGame(@CookieValue(value="player-id") String playerId, HttpServletResponse response) {
-        logger.log(Level.INFO, playerId);
+    public ResponseEntity getGame(@CookieValue(value="player-id") String playerId) {
         if(playerId != null && activeGamesByPlayer.containsKey(playerId)) {
             Game game = activeGamesByPlayer.get(playerId);
             game.updateGameStatus(playerId);
@@ -56,6 +63,11 @@ public class GameController {
         }
     }
 
+    /**
+     * Get a list of all open game IDs
+     * @param playerId The player id retrieved from the cookie
+     * @return a list of game IDs
+     */
     @RequestMapping(path="/games", method= RequestMethod.GET)
     public ResponseEntity getGames(@CookieValue(value="player-id") String playerId) {
         List<String> games = activeGamesById
@@ -67,8 +79,15 @@ public class GameController {
         return ResponseEntity.status(HttpStatus.OK).body(games);
     }
 
+    /**
+     * Create a new game
+     * @param playerId The player id retrieved from the cookie
+     * @param size The size of the board (must be an even number)
+     * @param pieces The number of pieces per square (at least 1)
+     * @return the game
+     */
     @RequestMapping(path="/game", method= RequestMethod.PUT)
-    public Game createGame(@CookieValue("player-id") String playerId, @RequestParam(value="size") int size, @RequestParam(value="pieces") int pieces, HttpServletResponse response) {
+    public Game createGame(@CookieValue("player-id") String playerId, @RequestParam(value="size") int size, @RequestParam(value="pieces") int pieces) {
         Game game = new Game(playerId, size, pieces);
         activeGamesByPlayer.put(playerId, game);
         activeGamesById.put(game.getId(), game);
@@ -78,8 +97,14 @@ public class GameController {
         return game;
     }
 
+    /**
+     * Join an open game
+     * @param playerId The player id retrieved from the cookie
+     * @param id the id of the game
+     * @return The joined game
+     */
     @RequestMapping(path="/game/join", method= RequestMethod.POST)
-    public ResponseEntity joinGame(@CookieValue("player-id") String playerId, @RequestParam(value="id") String id, HttpServletResponse response) {
+    public ResponseEntity joinGame(@CookieValue("player-id") String playerId, @RequestParam(value="id") String id) {
         if(activeGamesById.containsKey(id)) {
             Game game = activeGamesById.get(id);
             boolean result = game.joinGame(playerId);
@@ -96,6 +121,12 @@ public class GameController {
         }
     }
 
+    /**
+     * Request to perform a move
+     * @param playerId The player id retrieved from the cookie
+     * @param pocket The pocket to perform the move for
+     * @return the updated game
+     */
     @RequestMapping(path="/game/move", method= RequestMethod.POST)
     public ResponseEntity requestMove(@CookieValue("player-id") String playerId, @RequestParam(value="pocket") int pocket) {
         if(activeGamesByPlayer.containsKey(playerId)) {
@@ -113,6 +144,10 @@ public class GameController {
         }
     }
 
+    /**
+     * Send the game to websocket subscribers for that game ID and player ID (of the next player)
+     * @param game the game to send
+     */
     private void sendGame(Game game) {
         this.template.convertAndSend("/game/" + game.getId() + "/" + game.getNextPlayer(), game);
     }
