@@ -1,5 +1,5 @@
 # Mancala
-This project  is a Spring/Angular web application to play Mancala using websockets.
+This project  is a Spring/Angular web application to play Mancala using websockets. Test the websockets by running the website in 2 different browsers :)
 
 ## Installation
 -  Make sure you have Node.JS installed and update the node and npm versions in `mancala-angular/build.gradle` to match yours.
