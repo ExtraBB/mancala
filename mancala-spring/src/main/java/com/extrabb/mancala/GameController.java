@@ -86,6 +86,7 @@ public class GameController {
             if(result) {
                 activeGamesByPlayer.put(playerId, game);
                 game.updateGameStatus(playerId);
+                this.sendGame(game);
                 return ResponseEntity.status(HttpStatus.OK).body(game);
             } else {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Unable to join game");
