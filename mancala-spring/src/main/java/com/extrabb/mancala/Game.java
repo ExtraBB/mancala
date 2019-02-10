@@ -12,26 +12,53 @@ public class Game {
     private Board board;
     private String nextPlayer;
     private String status;
-    private String side;
 
+    /**
+     * Getter for the game id (used by JACKSON)
+     * @return the game id
+     */
     public String getId() {
         return id;
     }
 
+    /**
+     * Getter for the board (used by JACKSON)
+     * @return the board
+     */
     public Board getBoard() {
         return board;
     }
 
+    /**
+     * Getter for the next player (used by JACKSON)
+     * @return the next player
+     */
     public String getNextPlayer() {
         return nextPlayer;
     }
 
-    public String getStatus() {
-        return status;
+    /**
+     * Getter for the player 1 (used by JACKSON)
+     * @return the player 1
+     */
+    public String getPlayer1() {
+        return player1;
     }
 
-    public String getSide() {
-        return side;
+    /**
+     * Getter for the player 2 (used by JACKSON)
+     * @return the player 2
+     */
+    public String getPlayer2() {
+        return player2;
+    }
+
+    /**
+     * Getter for the game status(used by JACKSON)
+     * @return the game status
+     */
+    public String getStatus() {
+        return status;
     }
 
     public Game(String player1, int size, int startingPieces) {
@@ -87,6 +114,5 @@ public class Game {
 
     public void updateGameStatus(String playerId) {
         status = this.hasStarted() ? this.board.determineGameStatus() : "Waiting for opponent";
-        side = player1.equals(playerId) ? "top" : "bottom";
     }
 }

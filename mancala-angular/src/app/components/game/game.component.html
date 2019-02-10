@@ -4,4 +4,7 @@
   <strong>Turn</strong>: {{game.nextPlayer === player ? "You" : "Opponent"}}
 </p>
 
-  <app-board *ngIf="game.board && game.status !== 'Waiting for opponent'" [board]="game.board" [side]="game.side" (move)="makeMove($event)"></app-board>
+  <app-board *ngIf="game.board && game.status !== 'Waiting for opponent'" 
+    [board]="game.board" 
+    [side]="player === game.player1 ? 'top': 'bottom'" 
+    (move)="makeMove($event)"></app-board>

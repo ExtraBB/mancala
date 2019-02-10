@@ -37,6 +37,10 @@ public class Board {
         this.resetBoard(startingPieces);
     }
 
+    /**
+     * Reset the board to the original starting state
+     * @param startingPieces The number of pieces to start with
+     */
     private void resetBoard(int startingPieces) {
         for(int i = 0; i < this.BOARD_SIZE; i++) {
             if(i == this.BIG_PIT_1 || i == this.BIG_PIT_2) {
@@ -47,6 +51,12 @@ public class Board {
         }
     }
 
+    /**
+     * Check whether a move is legal for the current state of the board
+     * @param player the player that wants to perform the move
+     * @param pocket the pocket that you wish to drop a stone in
+     * @return whether the move is legal
+     */
     public boolean isLegalMove(int player, int pocket) {
         boolean incorrectPocket1 = player == 1 && (pocket > BOARD_SIZE / 2 - 2 || pocket < 0);
         boolean incorrectPocket2 = player == -1 && (pocket < BOARD_SIZE / 2 || pocket > BOARD_SIZE - 2);
@@ -57,6 +67,12 @@ public class Board {
         }
     }
 
+    /**
+     * Perform a move (if legal)
+     * @param player The player that wants to perform the move
+     * @param pocket The pocket to drop the stone in
+     * @return the player that can make the next move (or 0 for an invalid move)
+     */
     public int makeMove(int player, int pocket) {
         if(finished || !isLegalMove(player, pocket)) {
             return 0;
@@ -87,6 +103,12 @@ public class Board {
         }
     }
 
+    /**
+     * Check if a pocket belongs to a player
+     * @param pocket The pocket to check
+     * @param player The player
+     * @return If a pocket belongs to a player
+     */
     private boolean pocketBelongsToPlayer(int pocket, int player) {
         if(player == 1) {
             return pocket > 0 && pocket < BOARD_SIZE / 2 - 1;
@@ -95,6 +117,11 @@ public class Board {
         }
     }
 
+    /**
+     * Capture stones if you can
+     * @param lastPocket the pocket where the last stone was dropped
+     * @param player the player that made the last move
+     */
     private void tryCaptureStones(int lastPocket, int player) {
         if(this.pockets[lastPocket] == 1 && this.pocketBelongsToPlayer(lastPocket, player)) {
             int oppositePit = lastPocket + 2 * (BOARD_SIZE / 2 - lastPocket - 1);
@@ -103,6 +130,10 @@ public class Board {
         }
     }
 
+    /**
+     * Determine the status of the game (playing, finished, draw)
+     * @return a string describing the current status
+     */
     public String determineGameStatus() {
         int player1Sum = Arrays.stream(this.pockets).limit(BOARD_SIZE / 2 - 1).sum();
         int player2Sum = Arrays.stream(this.pockets).skip(BOARD_SIZE / 2).limit(BOARD_SIZE / 2 - 1).sum();
